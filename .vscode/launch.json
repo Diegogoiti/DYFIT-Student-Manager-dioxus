@@ -1,0 +1,31 @@
+{
+    // Use IntelliSense para saber los atributos posibles.
+    // Mantenga el puntero para ver las descripciones de los existentes atributos.
+    // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug executable 'dyfit-student-manager'",
+            "type": "lldb",
+            "request": "launch",
+            "cargo": {
+                "args": [
+                    "run",
+                    "--bin=dyfit-student-manager"
+                ]
+            },
+            "args": []
+        },
+        {
+            "name": "Debug unit tests in executable 'dyfit-student-manager'",
+            "type": "lldb",
+            "request": "launch",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--bin=dyfit-student-manager"
+                ]
+            }
+        }
+    ]
+}

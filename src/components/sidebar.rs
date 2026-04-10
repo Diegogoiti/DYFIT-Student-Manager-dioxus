@@ -7,22 +7,29 @@ pub fn Sidebar() -> Element {
         div { class: "flex h-screen bg-gray-100",
             nav { class: "w-64 bg-gray-900 text-white flex flex-col shadow-xl",
                 div { class: "p-6 border-b border-gray-800 flex justify-center",
-                    h1 { class: "text-2xl font-bold text-red-500", "DYFIT" }
+                    h1 { class: "text-2xl font-bold text-white", "DYFIT" }
                 }
                 div { class: "flex-1 px-4 py-6 space-y-2",
                     SidebarItem { to: Route::Home {}, icon: "📋", label: "Consulta" }
-                    SidebarItem { to: Route::Home {}, icon: "🔍", label: "Buscar" }
-                    SidebarItem { to: Route::Home {}, icon: "📊", label: "Filtrar" }
+                    SidebarItem { to: Route::Buscar {} , icon: "🔍", label: "Buscar" }
+                    SidebarItem { to: Route::Filtrar {}, icon: "📊", label: "Filtrar" }
                     hr { class: "my-6 border-gray-800" }
-                    SidebarItem { to: Route::Home {}, icon: "➕", label: "Agregar" }
-                    SidebarItem { to: Route::Home {}, icon: "✏️", label: "Editar" }
-                    SidebarItem { to: Route::Home {}, icon: "🗑️", label: "Eliminar" }
+                    SidebarItem { to: Route::Agregar {}, icon: "➕", label: "Agregar" }
+                    SidebarItem { to: Route::Editar {}, icon: "✏️", label: "Editar" }
+                    SidebarItem {
+                        to: Route::Eliminar  {},
+                        icon: "🗑️",
+                        label: "Eliminar",
+                    }
+                }
+                div { class: "p-4 bg-gray-950 text-center border-t border-gray-800",
+                    p { class: "text-[10px] text-gray-500 uppercase tracking-widest",
+                        "DSM v1.0"
+                    }
                 }
             }
             // El "hueco" donde se verán las vistas
-            main { class: "flex-1 overflow-y-auto p-8",
-                Outlet::<Route> {}
-            }
+            main { class: "flex-1 overflow-y-auto p-8", Outlet::<Route> {} }
         }
     }
 }
@@ -30,7 +37,9 @@ pub fn Sidebar() -> Element {
 #[component]
 fn SidebarItem(to: Route, icon: &'static str, label: &'static str) -> Element {
     rsx! {
-        Link { to, class: "flex items-center space-x-3 p-2 rounded hover:bg-gray-800",
+        Link {
+            to,
+            class: "flex items-center space-x-3 p-2 rounded hover:bg-gray-800",
             span { "{icon}" }
             span { "{label}" }
         }
