@@ -4,8 +4,8 @@ use crate::Route;
 #[component]
 pub fn Sidebar() -> Element {
     rsx! {
-        div { class: "flex h-screen bg-gray-100",
-            nav { class: "w-64 bg-gray-900 text-white flex flex-col shadow-xl",
+        div { class: "flex h-screen w-screen bg-gray-100 overflow-hidden",
+            nav { class: "w-64 bg-gray-900 text-white flex flex-col shadow-xl flex-none",
                 div { class: "p-6 border-b border-gray-800 flex justify-center",
                     h1 { class: "text-2xl font-bold text-white", "DYFIT" }
                 }
@@ -29,7 +29,12 @@ pub fn Sidebar() -> Element {
                 }
             }
             // El "hueco" donde se verán las vistas
-            main { class: "flex-1 overflow-y-auto p-8", Outlet::<Route> {} }
+            main { 
+                class: "flex-1 h-full flex flex-col bg-gray-100 overflow-hidden", 
+                div {
+                    class: "p-8 w-full h-full flex flex-col",
+                    Outlet::<Route> {}}
+                 }
         }
     }
 }

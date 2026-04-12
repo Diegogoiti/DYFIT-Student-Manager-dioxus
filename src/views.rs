@@ -16,17 +16,19 @@ pub fn TablaAlumnos(props: TablaProps) -> Element {
             table { class: "w-full border-collapse text-left text-xs md:text-sm",
                 thead { 
                     // sticky y top-0 mantienen la fila visible al bajar
-                    class: "sticky top-0 z-10 bg-gray-800 text-gray-400 uppercase font-bold tracking-wider shadow-sm",
-                    tr {
-                        th { class: "px-4 py-3", "Sel." }
-                        th { class: "px-4 py-3", "ID" }
-                        th { class: "px-4 py-3", "Nombre" }
-                        th { class: "px-4 py-3", "Cinta" }
-                        th { class: "px-4 py-3", "Edad" }
-                        th { class: "px-4 py-3", "F. Nacimiento" }
-                        th { class: "px-4 py-3", "Representante" }
-                        th { class: "px-4 py-3", "Teléfono" }
-                    }
+tr {
+    class: "sticky top-0 text-white bg-gray-800",
+                        // Aplicamos sticky y top-0 a cada th para asegurar compatibilidad
+                        // Agregamos z-20 para que los datos no pasen "por encima" de la cabecera
+                        th { class: " z-20  px-4 py-3", "Sel." }
+                        th { class: " z-20  px-4 py-3", "ID" }
+                        th { class: " z-20  px-4 py-3", "Nombre" }
+                        th { class: " z-20  px-4 py-3", "Cinta" }
+                        th { class: " z-20  px-4 py-3", "Edad" }
+                        th { class: " z-20  px-4 py-3", "F. Nacimiento" }
+                        th { class: " z-20  px-4 py-3", "Representante" }
+                        th { class: " z-20 px-4 py-3", "Teléfono" }
+}
                 }
                 tbody { class: "divide-y divide-gray-800 text-gray-300",
                     for alumno in props.alumnos.iter() {
@@ -59,7 +61,7 @@ pub fn TablaAlumnos(props: TablaProps) -> Element {
 #[component]
 pub fn Home() -> Element {
     // Datos de prueba estáticos para ver la tabla funcionando
-    let mut lista_alumnos = use_signal(|| vec![
+    let lista_alumnos = use_signal(|| vec![
         Alumno {
             id: 1,
             nombre: "Diego ".into(),
@@ -80,12 +82,148 @@ pub fn Home() -> Element {
             telefono: "0424-7654321".into(),
             seleccionado: false,
         },
+                Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },
     ]);
 
     rsx! {
         div { class: "flex flex-col h-full space-y-6 p-4",
             div {
-                h2 { class: "text-3xl font-black text-black", "Gestión de Alumnos" }
+                h2 { class: "text-3xl font-black text-black", "Consultar" }
                 p { class: "text-gray-400", "Base de datos local del Dojo" }
             }
 
@@ -94,10 +232,7 @@ pub fn Home() -> Element {
             // Usamos .read().clone() porque la prop espera un Vec<Alumno>, no un Signal.
             TablaAlumnos { alumnos: lista_alumnos.read().clone() }
             
-            div { class: "text-gray-500 text-xs",
-                "Mostrando {lista_alumnos.read().len()} alumnos registrados"
-            }
-        }
+        
             
             // Pie de tabla con resumen
             div { class: "text-gray-500 text-xs",
@@ -105,7 +240,7 @@ pub fn Home() -> Element {
             }
         }
     }
-
+}
 
 #[component]
 pub fn Buscar() -> Element {

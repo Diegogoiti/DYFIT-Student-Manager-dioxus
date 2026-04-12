@@ -3,7 +3,6 @@ mod utils;
 mod components;
 mod views;
 
-use dioxus::desktop::tao::platform::windows::WindowBuilderExtWindows;
 use dioxus::prelude::*;
 use dioxus::desktop::{Config, WindowBuilder};
 use crate::components::sidebar::Sidebar;
@@ -33,7 +32,8 @@ fn main() {
     // 1. Configuramos la ventana (SIN el menú aquí)
     let window = WindowBuilder::new()
         .with_title("DYFIT Student Manager")
-        .with_background_color((17, 24, 39, 255)); // RGBA de gray-900
+        .with_background_color((17, 24, 39, 255))
+        .with_min_inner_size(dioxus::desktop::LogicalSize::new(800.0, 600.0)); // RGBA de gray-900
 
     // 2. Creamos el config y AQUÍ le quitamos el menú
     let config = Config::default()
@@ -49,7 +49,7 @@ fn main() {
 #[component]
 fn App() -> Element {
     rsx! {
-        // Asegúrate de que este archivo exista en assets/
+        
         style { "{CSS}" }
         Router::<Route> {}
     }
