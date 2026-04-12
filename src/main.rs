@@ -2,11 +2,13 @@ mod models;
 mod utils;
 mod components;
 mod views;
+mod my_app;
 
 use dioxus::prelude::*;
 use dioxus::desktop::{Config, WindowBuilder};
 use crate::components::sidebar::Sidebar;
 use crate::views::*;
+use crate::models::Alumno;
 
 const CSS: &str = include_str!("../assets/tailwind.css");
 
@@ -33,7 +35,8 @@ fn main() {
     let window = WindowBuilder::new()
         .with_title("DYFIT Student Manager")
         .with_background_color((17, 24, 39, 255))
-        .with_min_inner_size(dioxus::desktop::LogicalSize::new(800.0, 600.0)); // RGBA de gray-900
+        .with_min_inner_size(dioxus::desktop::LogicalSize::new(800.0, 600.0))
+        .with_visible(false); // RGBA de gray-900
 
     // 2. Creamos el config y AQUÍ le quitamos el menú
     let config = Config::default()
@@ -48,6 +51,179 @@ fn main() {
 
 #[component]
 fn App() -> Element {
+    let lista_alumnos = use_signal(|| vec![
+        Alumno {
+            id: 1,
+            nombre: "Diego ".into(),
+            cinta: "Negra".to_string(),
+            edad: 17,
+            fecha_nacimiento: "2009-02-15".into(),
+            representante: "Madre de Diego".into(),
+            telefono: "0412-1234567".into(),
+            seleccionado: false,
+        },
+        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },
+                Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },        Alumno {
+            id: 2,
+            nombre: "Andrés Pérez".into(),
+            cinta: "Blanca".to_string(),
+            edad: 12,
+            fecha_nacimiento: "2014-05-20".into(),
+            representante: "Carlos Pérez".into(),
+            telefono: "0424-7654321".into(),
+            seleccionado: false,
+        },
+    ]);
+    use_effect(move || {
+        // Muestra la ventana solo cuando el componente esté montado
+        dioxus::desktop::window().set_visible(true);
+    });
+
+let estado_app = use_signal(|| {
+        my_app::MyApp::new(lista_alumnos.read().clone())
+    });
+
+    // 3. Proveemos el signal ya creado al contexto
+    use_context_provider(|| estado_app);
+
+
+
+
     rsx! {
         
         style { "{CSS}" }

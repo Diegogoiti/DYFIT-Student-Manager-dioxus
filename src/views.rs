@@ -1,242 +1,34 @@
 // src/views/home.rs
 use dioxus::prelude::*;
-use crate::models::Alumno;
+use crate::components::datatable::DataTable;
+use crate::my_app;
 
 
-#[derive(Props, PartialEq, Clone)]
-pub struct TablaProps {
-    alumnos: Vec<Alumno>,
-}
 
-#[component]
-pub fn TablaAlumnos(props: TablaProps) -> Element {
-    rsx! {
-        // Altura fija y overflow-y-auto para que el scroll sea interno
-        div { class: "overflow-auto rounded-xl border border-gray-800 bg-gray-900 shadow-xl max-h-[600px]",
-            table { class: "w-full border-collapse text-left text-xs md:text-sm",
-                thead { 
-                    // sticky y top-0 mantienen la fila visible al bajar
-tr {
-    class: "sticky top-0 text-white bg-gray-800",
-                        // Aplicamos sticky y top-0 a cada th para asegurar compatibilidad
-                        // Agregamos z-20 para que los datos no pasen "por encima" de la cabecera
-                        th { class: " z-20  px-4 py-3", "Sel." }
-                        th { class: " z-20  px-4 py-3", "ID" }
-                        th { class: " z-20  px-4 py-3", "Nombre" }
-                        th { class: " z-20  px-4 py-3", "Cinta" }
-                        th { class: " z-20  px-4 py-3", "Edad" }
-                        th { class: " z-20  px-4 py-3", "F. Nacimiento" }
-                        th { class: " z-20  px-4 py-3", "Representante" }
-                        th { class: " z-20 px-4 py-3", "Teléfono" }
-}
-                }
-                tbody { class: "divide-y divide-gray-800 text-gray-300",
-                    for alumno in props.alumnos.iter() {
-                        tr { class: "hover:bg-gray-800/50 transition-colors",
-                            td { class: "px-4 py-3",
-                                input { 
-                                    r#type: "checkbox", 
-                                    class: "w-4 h-4 rounded border-gray-700 bg-gray-800 text-blue-600 focus:ring-blue-500",
-                                    checked: alumno.seleccionado 
-                                }
-                            }
-                            td { class: "px-4 py-3 font-mono text-gray-500", "#{alumno.id}" }
-                            td { class: "px-4 py-3 font-bold text-white", "{alumno.nombre}" }
-                            td { class: "px-4 py-3",
-                                span { class: "px-2 py-1 rounded bg-gray-700 text-[10px] uppercase font-bold text-gray-300", "{alumno.cinta}" }
-                            }
-                            td { class: "px-4 py-3", "{alumno.edad}" }
-                            td { class: "px-4 py-3", "{alumno.fecha_nacimiento}" }
-                            td { class: "px-4 py-3", "{alumno.representante}" }
-                            td { class: "px-4 py-3 text-blue-400 font-mono", "{alumno.telefono}" }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
 
 
 #[component]
 pub fn Home() -> Element {
-    // Datos de prueba estáticos para ver la tabla funcionando
-    let lista_alumnos = use_signal(|| vec![
-        Alumno {
-            id: 1,
-            nombre: "Diego ".into(),
-            cinta: "Negra".to_string(),
-            edad: 17,
-            fecha_nacimiento: "2009-02-15".into(),
-            representante: "Madre de Diego".into(),
-            telefono: "0412-1234567".into(),
-            seleccionado: false,
-        },
-        Alumno {
-            id: 2,
-            nombre: "Andrés Pérez".into(),
-            cinta: "Blanca".to_string(),
-            edad: 12,
-            fecha_nacimiento: "2014-05-20".into(),
-            representante: "Carlos Pérez".into(),
-            telefono: "0424-7654321".into(),
-            seleccionado: false,
-        },
-                Alumno {
-            id: 2,
-            nombre: "Andrés Pérez".into(),
-            cinta: "Blanca".to_string(),
-            edad: 12,
-            fecha_nacimiento: "2014-05-20".into(),
-            representante: "Carlos Pérez".into(),
-            telefono: "0424-7654321".into(),
-            seleccionado: false,
-        },        Alumno {
-            id: 2,
-            nombre: "Andrés Pérez".into(),
-            cinta: "Blanca".to_string(),
-            edad: 12,
-            fecha_nacimiento: "2014-05-20".into(),
-            representante: "Carlos Pérez".into(),
-            telefono: "0424-7654321".into(),
-            seleccionado: false,
-        },        Alumno {
-            id: 2,
-            nombre: "Andrés Pérez".into(),
-            cinta: "Blanca".to_string(),
-            edad: 12,
-            fecha_nacimiento: "2014-05-20".into(),
-            representante: "Carlos Pérez".into(),
-            telefono: "0424-7654321".into(),
-            seleccionado: false,
-        },        Alumno {
-            id: 2,
-            nombre: "Andrés Pérez".into(),
-            cinta: "Blanca".to_string(),
-            edad: 12,
-            fecha_nacimiento: "2014-05-20".into(),
-            representante: "Carlos Pérez".into(),
-            telefono: "0424-7654321".into(),
-            seleccionado: false,
-        },        Alumno {
-            id: 2,
-            nombre: "Andrés Pérez".into(),
-            cinta: "Blanca".to_string(),
-            edad: 12,
-            fecha_nacimiento: "2014-05-20".into(),
-            representante: "Carlos Pérez".into(),
-            telefono: "0424-7654321".into(),
-            seleccionado: false,
-        },        Alumno {
-            id: 2,
-            nombre: "Andrés Pérez".into(),
-            cinta: "Blanca".to_string(),
-            edad: 12,
-            fecha_nacimiento: "2014-05-20".into(),
-            representante: "Carlos Pérez".into(),
-            telefono: "0424-7654321".into(),
-            seleccionado: false,
-        },        Alumno {
-            id: 2,
-            nombre: "Andrés Pérez".into(),
-            cinta: "Blanca".to_string(),
-            edad: 12,
-            fecha_nacimiento: "2014-05-20".into(),
-            representante: "Carlos Pérez".into(),
-            telefono: "0424-7654321".into(),
-            seleccionado: false,
-        },        Alumno {
-            id: 2,
-            nombre: "Andrés Pérez".into(),
-            cinta: "Blanca".to_string(),
-            edad: 12,
-            fecha_nacimiento: "2014-05-20".into(),
-            representante: "Carlos Pérez".into(),
-            telefono: "0424-7654321".into(),
-            seleccionado: false,
-        },        Alumno {
-            id: 2,
-            nombre: "Andrés Pérez".into(),
-            cinta: "Blanca".to_string(),
-            edad: 12,
-            fecha_nacimiento: "2014-05-20".into(),
-            representante: "Carlos Pérez".into(),
-            telefono: "0424-7654321".into(),
-            seleccionado: false,
-        },        Alumno {
-            id: 2,
-            nombre: "Andrés Pérez".into(),
-            cinta: "Blanca".to_string(),
-            edad: 12,
-            fecha_nacimiento: "2014-05-20".into(),
-            representante: "Carlos Pérez".into(),
-            telefono: "0424-7654321".into(),
-            seleccionado: false,
-        },        Alumno {
-            id: 2,
-            nombre: "Andrés Pérez".into(),
-            cinta: "Blanca".to_string(),
-            edad: 12,
-            fecha_nacimiento: "2014-05-20".into(),
-            representante: "Carlos Pérez".into(),
-            telefono: "0424-7654321".into(),
-            seleccionado: false,
-        },        Alumno {
-            id: 2,
-            nombre: "Andrés Pérez".into(),
-            cinta: "Blanca".to_string(),
-            edad: 12,
-            fecha_nacimiento: "2014-05-20".into(),
-            representante: "Carlos Pérez".into(),
-            telefono: "0424-7654321".into(),
-            seleccionado: false,
-        },        Alumno {
-            id: 2,
-            nombre: "Andrés Pérez".into(),
-            cinta: "Blanca".to_string(),
-            edad: 12,
-            fecha_nacimiento: "2014-05-20".into(),
-            representante: "Carlos Pérez".into(),
-            telefono: "0424-7654321".into(),
-            seleccionado: false,
-        },        Alumno {
-            id: 2,
-            nombre: "Andrés Pérez".into(),
-            cinta: "Blanca".to_string(),
-            edad: 12,
-            fecha_nacimiento: "2014-05-20".into(),
-            representante: "Carlos Pérez".into(),
-            telefono: "0424-7654321".into(),
-            seleccionado: false,
-        },        Alumno {
-            id: 2,
-            nombre: "Andrés Pérez".into(),
-            cinta: "Blanca".to_string(),
-            edad: 12,
-            fecha_nacimiento: "2014-05-20".into(),
-            representante: "Carlos Pérez".into(),
-            telefono: "0424-7654321".into(),
-            seleccionado: false,
-        },
-    ]);
+    let estado = use_context::<Signal<my_app::MyApp>>();
+    
 
     rsx! {
-        div { class: "flex flex-col h-full space-y-6 p-4",
-            div {
-                h2 { class: "text-3xl font-black text-black", "Consultar" }
-                p { class: "text-gray-400", "Base de datos local del Dojo" }
-            }
+        div { class: "flex flex-col h-full space-y-4 ",
+        
+                h2 { class: "text-3xl font-bold text-gray-800 text-center", "Consultar" }
+                //p { class: "text-gray-600", "Base de datos local del Dojo" }
+            
 
             // --- AQUÍ ESTÁ EL CAMBIO CLAVE ---
             // Llamamos al componente reutilizable y le pasamos los datos.
             // Usamos .read().clone() porque la prop espera un Vec<Alumno>, no un Signal.
-            TablaAlumnos { alumnos: lista_alumnos.read().clone() }
+            DataTable { alumnos: estado.read().alumnos.clone() }
             
         
             
             // Pie de tabla con resumen
             div { class: "text-gray-500 text-xs",
-                "Mostrando {lista_alumnos.read().len()} alumnos registrados"
+                "Mostrando {estado.read().alumnos.len()} alumnos registrados"
             }
         }
     }
@@ -246,8 +38,8 @@ pub fn Home() -> Element {
 pub fn Buscar() -> Element {
     rsx! {
         div { class: "space-y-4",
-            h2 { class: "text-3xl font-bold text-gray-800", "Buscar Alumnos" }
-            p { class: "text-gray-600", "Aquí podrás buscar alumnos por nombre, ID o curso." }
+            h2 { class: "text-3xl font-bold text-gray-800 text-center", "Buscar Alumnos" }
+            //p { class: "text-gray-600", "" }
 
             // Un pequeño indicador de que la vista cargó
             div { class: "p-10 border-2 border-dashed border-gray-300 rounded-xl text-center",
