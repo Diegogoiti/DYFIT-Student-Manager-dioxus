@@ -1,5 +1,5 @@
 
-use std::vec;
+
 
 use dioxus::prelude::*;
 use crate::models::Alumno;
@@ -11,7 +11,7 @@ use crate::models::Alumno;
 pub fn DataTable(alumnos: Vec<Alumno>) -> Element {
     rsx! {
         // Altura fija y overflow-y-auto para que el scroll sea interno
-        div { class: "overflow-auto rounded-xl border border-gray-800 bg-gray-900 shadow-xl max-h-[600px]",
+        div { class: "overflow-auto rounded-xl border border-gray-800 bg-gray-900 shadow-xl ",
             table { class: "w-full border-collapse text-left text-xs md:text-sm",
                 thead { 
                     // sticky y top-0 mantienen la fila visible al bajar

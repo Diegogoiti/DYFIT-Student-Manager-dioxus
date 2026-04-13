@@ -1,8 +1,8 @@
 // src/views/home.rs
 use dioxus::prelude::*;
 use crate::components::datatable::DataTable;
+use crate::components::searchbar::SearchBar;
 use crate::my_app;
-
 
 
 
@@ -16,12 +16,7 @@ pub fn Home() -> Element {
         div { class: "flex flex-col h-full space-y-4 ",
         
                 h2 { class: "text-3xl font-bold text-gray-800 text-center", "Consultar" }
-                //p { class: "text-gray-600", "Base de datos local del Dojo" }
-            
 
-            // --- AQUÍ ESTÁ EL CAMBIO CLAVE ---
-            // Llamamos al componente reutilizable y le pasamos los datos.
-            // Usamos .read().clone() porque la prop espera un Vec<Alumno>, no un Signal.
             DataTable { alumnos: estado.read().alumnos.clone() }
             
         
@@ -36,16 +31,17 @@ pub fn Home() -> Element {
 
 #[component]
 pub fn Buscar() -> Element {
+    let estado = use_context::<Signal<my_app::MyApp>>();
     rsx! {
-        div { class: "space-y-4",
+        div { class: "flex flex-col h-full space-y-4",
             h2 { class: "text-3xl font-bold text-gray-800 text-center", "Buscar Alumnos" }
             //p { class: "text-gray-600", "" }
 
-            // Un pequeño indicador de que la vista cargó
-            div { class: "p-10 border-2 border-dashed border-gray-300 rounded-xl text-center",
-                "Funcionalidad de búsqueda (Próximamente)"
-            }
+           
+            SearchBar {  }
+            DataTable { alumnos: estado.read().alumnos.clone() }
         }
+         
     }
 }
 
