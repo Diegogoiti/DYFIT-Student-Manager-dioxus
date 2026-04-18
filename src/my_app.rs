@@ -17,12 +17,35 @@ impl MyApp {
     }
 
 
-
-    pub fn toggle_seleccion(&mut self, index: usize) {
-        if self.seleccionados.contains(&index) {
-            self.seleccionados.remove(&index);
+pub fn toggle_seleccion(&mut self, index_in_vec: usize) {
+    if let Some(alumno) = self.alumnos.get_mut(index_in_vec) {
+        // Invertimos el estado del alumno
+        alumno.seleccionado = !alumno.seleccionado;
+        
+        // Sincronizamos con el HashSet
+        if alumno.seleccionado {
+            self.seleccionados.insert(alumno.id as usize);
         } else {
-            self.seleccionados.insert(index);
+            self.seleccionados.remove(&(alumno.id as usize));
         }
     }
+}
+
+pub fn toggle_all(&mut self) {
+    if !self.seleccionados.is_empty() {
+        // 1. Limpiamos el Set
+        self.seleccionados.clear();
+        // 2. IMPORTANTE: Actualizamos el booleano en cada alumno
+        for alumno in self.alumnos.iter_mut() {
+            alumno.seleccionado = false;
+        }
+    } else {
+        // 1. Llenamos el Set con los IDs (o índices)
+        for alumno in self.alumnos.iter_mut() {
+            self.seleccionados.insert(alumno.id as usize);
+            // 2. IMPORTANTE: Marcamos como seleccionado
+            alumno.seleccionado = true;
+        }
+    }
+}
 }
