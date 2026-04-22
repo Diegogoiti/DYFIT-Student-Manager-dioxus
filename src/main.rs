@@ -33,12 +33,19 @@ pub enum Route {
 }
 
 fn main() {
+    let initial_size = dioxus::desktop::LogicalSize::new(1024.0, 720.0);
+
+
     // 1. Configuramos la ventana (SIN el menú aquí)
     let window = WindowBuilder::new()
         .with_title("DYFIT Student Manager")
         .with_background_color((17, 24, 39, 255))
         .with_min_inner_size(dioxus::desktop::LogicalSize::new(800.0, 600.0))
-        .with_visible(false); // RGBA de gray-900
+        .with_inner_size(initial_size)
+        // QUITAMOS el .with_visible(true) y .with_focused(true) de aquí
+        // Windows a veces se lía si se los das tan temprano
+        .with_maximized(false)
+        .with_visible(false);
 
     // 2. Creamos el config y AQUÍ le quitamos el menú
     let config = Config::default()

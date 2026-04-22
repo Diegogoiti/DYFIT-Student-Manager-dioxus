@@ -34,14 +34,15 @@ tr {
                 tbody { class: "divide-y divide-gray-800 text-gray-300",
                     for alumno in alumnos {
                         tr { class: "hover:bg-gray-800/50 transition-colors",
+                        onclick: move |_| {
+                                        estado.write().toggle_seleccion(alumno.id);
+                                    },
                             td { class: "px-4 py-3",
                                 input { 
                                     r#type: "checkbox", 
                                     class: "w-4 h-4 rounded border-gray-700 bg-gray-800 text-blue-600 focus:ring-blue-500",
-                                    checked: alumno.seleccionado ,
-                                    onchange: move |_| {
-                                        estado.write().toggle_seleccion(alumno.id);
-                                    }
+                                    checked: estado.read().seleccionados.contains(&alumno.id) ,
+                                    
                                 }
                             }
                             td { class: "px-4 py-3 font-mono text-gray-500", "#{alumno.id}" }
