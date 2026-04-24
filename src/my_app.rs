@@ -1,8 +1,11 @@
 
 use std::collections::HashSet;
-
 use crate::models::{Alumno, Database}; 
 
+
+
+///estructura que maneja los datos de los alumnos y la ui en memoria 
+/// ademas de almacenar la coneccion de la db
 pub struct MyApp {
     pub alumnos: Vec<Alumno>,
     pub seleccionados: HashSet<usize>,
@@ -10,7 +13,6 @@ pub struct MyApp {
 }
 
 impl MyApp {
-    //debo hacer que aqui haga la llamada a la db para obtener los datos de los alumnos, y luego pasarlos a la tabla
     pub fn new() -> Self {
         let database = Database::new("./database/database.db").unwrap();
         let alumnos = database.fetch_all().unwrap();

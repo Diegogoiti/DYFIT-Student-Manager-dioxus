@@ -26,7 +26,7 @@ def llenar_db():
     print("Insertando 100 alumnos de prueba...")
 
     for i in range(100):
-        nombre_completo = f"{random.choice(nombres)} {random.choice(apellidos)} {i}"
+        nombre_completo = f"{random.choice(nombres)} {random.choice(apellidos)}"
         fecha = generar_fecha()
         rango = int(random.choice(rangos) * 10)
         rep = f"Padre de {nombre_completo.split()[0]}"

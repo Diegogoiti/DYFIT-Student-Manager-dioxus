@@ -1,9 +1,15 @@
+//! contiene los modelos de los alumnos para manejarlos como instancias individuales
+//!  y el modelo del crud de la base de datos para abstraer operaciones 
+
+
 use crate::utils;
 use chrono::{Datelike, Local, NaiveDate};
 use rusqlite;
 
 
-
+///modelo que maneja los datos delos alumnos para tratarlos como instancias independientes
+/// de manera mas organizada y clara, contiene metodos como cinta, rango_str o edad que son setters,
+/// calculan los valores a partir de las variables  y los retornan
 #[derive(PartialEq, Clone)]
 pub struct Alumno {
     pub id: usize,
@@ -53,7 +59,7 @@ impl Alumno {
             representante: representante.to_string(),
             numero_contacto: numero_contacto.to_string(),
             
-             //esto no deberia estar aqui, se debe calcular directamente mediante el hashset porque contiene los ids de los seleccionados
+            
         }
     }
 
@@ -93,6 +99,8 @@ impl Alumno {
         edad
     }
 }
+
+///modelo que maneja el crud de la base de datos para abstraer operaciones
 pub struct Database {
     connection: rusqlite::Connection,
 }
@@ -150,17 +158,15 @@ impl Database {
     )?;
 
         let alumno_iter = stmt.query_map([], |row| {
-            // Corrección: Pasamos los valores directamente sin los nombres de los parámetros
-            // y eliminamos el punto y coma final para que retorne el objeto Alumno
             Ok(Alumno::from_db(
                 row.get(0)?,
-                &row.get::<_, String>(1)?, // Usamos & porque from_db pide &str
+                &row.get::<_, String>(1)?, 
                 &row.get::<_, String>(2)?,
                 row.get(3)?,
                 &row.get::<_, String>(4)?,
                 &row.get::<_, String>(5)?,
             ))
-        })?; // Aquí faltaba el paréntesis de cierre
+        })?; 
 
         let mut alumnos = Vec::new();
         for alumno in alumno_iter {

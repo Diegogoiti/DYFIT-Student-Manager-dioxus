@@ -7,10 +7,11 @@ use crate::my_app;
 
 
 
-
+///componente que recibe un contexto con una clase myapp y clona el vertor alumnos
+/// para dibujar la tabla de los datos en la ventana
 #[component]
 pub fn DataTable(estado: Signal<my_app::MyApp>) -> Element {
-    let alumnos = estado.read().alumnos.clone();
+    let alumnos = estado.read().alumnos.clone(); 
     rsx! {
         
         div { class: "overflow-auto rounded-xl border border-gray-800 bg-gray-900 shadow-xl ",

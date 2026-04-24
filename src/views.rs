@@ -1,4 +1,8 @@
-// src/views/home.rs
+//! se encarga de dibujar las vistas segun las rutas seleccionadas
+//! contiene las funciones con el codigo especifico de cada vista
+
+
+
 use dioxus::prelude::*;
 use crate::components::datatable::DataTable;
 use crate::components::searchbar::SearchBar;
