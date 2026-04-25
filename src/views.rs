@@ -3,6 +3,8 @@
 
 
 
+use std::string;
+
 use dioxus::prelude::*;
 use crate::components::datatable::DataTable;
 use crate::components::searchbar::SearchBar;
@@ -16,6 +18,7 @@ pub fn Home() -> Element {
     let mut estado = use_context::<Signal<my_app::MyApp>>();
     let hay_seleccion = !estado.read().seleccionados.is_empty();
     let texto_boton = if hay_seleccion { "Deseleccionar todos" } else { "Seleccionar todos" };
+    let mut alumnos_lista = use_signal(|| estado.read().alumnos.clone());
 
     rsx! {
         div { class: "flex flex-col h-full space-y-4 ",
@@ -29,7 +32,7 @@ pub fn Home() -> Element {
             "{texto_boton}"
         }}
 
-            DataTable {  estado: estado }
+            DataTable { alumnos_lista:alumnos_lista,  estado: estado }
             
         
             
@@ -44,8 +47,21 @@ pub fn Home() -> Element {
 #[component]
 pub fn Buscar() -> Element {
     let mut estado = use_context::<Signal<my_app::MyApp>>();
-     let hay_seleccion = !estado.read().seleccionados.is_empty();
+    let hay_seleccion = !estado.read().seleccionados.is_empty();
     let texto_boton = if hay_seleccion { "Deseleccionar todos" } else { "Seleccionar todos" };
+    let mut filtro = use_signal(|| (my_app::Columnas::Nombre, String::new()));
+    let alumnos_filtrados = use_signal(|| estado.read().alumnos.clone());
+
+    {
+        let filtro = filtro.clone();
+        let estado = estado.clone();
+        let mut alumnos_filtrados = alumnos_filtrados.clone();
+        use_effect(move || {
+            let app = estado.read();
+            alumnos_filtrados.set(app.filtrar_alumnos(filtro.read().0.clone(), &filtro.read().1));
+        });
+    }
+
     rsx! {
         div { class: "flex flex-col h-full space-y-4",
             div { class: "relative flex items-center justify-center py-2",
@@ -60,8 +76,10 @@ pub fn Buscar() -> Element {
             
 
            
-            SearchBar {  }
-            DataTable { estado: estado }
+            SearchBar { 
+                on_input: move |data| filtro.set(data)
+             }
+            DataTable {alumnos_lista: alumnos_filtrados,  estado: estado }
         }
          
     }

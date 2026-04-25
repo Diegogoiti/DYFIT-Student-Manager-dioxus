@@ -2,6 +2,16 @@
 use std::collections::HashSet;
 use crate::models::{Alumno, Database}; 
 
+#[derive(Clone, Copy, PartialEq)]
+pub enum Columnas {
+    Id,
+    Nombre,
+    Edad,
+    FechaNacimiento,
+    Representante,
+    Telefono,
+
+}
 
 
 ///estructura que maneja los datos de los alumnos y la ui en memoria 
@@ -40,5 +50,22 @@ pub fn toggle_all(&mut self) {
         self.seleccionados = self.alumnos.iter().map(|a| a.id).collect();
     }
 }
+
+pub fn filtrar_alumnos(&self, col: Columnas, query: &str) -> Vec<Alumno> {
+        let q = query.to_lowercase();
+        if q.is_empty() {
+            return self.alumnos.clone();
+        }
+
+        self.alumnos.iter().cloned().filter(|a| {
+            match col {
+                Columnas::Nombre => a.nombre.to_lowercase().contains(&q),
+                Columnas::Id => a.id.to_string().contains(&q),
+                Columnas::Representante => a.representante.to_lowercase().contains(&q),
+                Columnas::Telefono => a.numero_contacto.contains(&q),
+                _ => true
+            }
+        }).collect()
+    }
 
 }
