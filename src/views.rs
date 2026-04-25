@@ -16,8 +16,9 @@ use crate::my_app;
 #[component]
 pub fn Home() -> Element {
     let mut estado = use_context::<Signal<my_app::MyApp>>();
-    let hay_seleccion = !estado.read().seleccionados.is_empty();
-    let texto_boton = if hay_seleccion { "Deseleccionar todos" } else { "Seleccionar todos" };
+    let todos_seleccionados = !estado.read().alumnos.is_empty()
+        && estado.read().alumnos.iter().all(|a| estado.read().seleccionados.contains(&a.id));
+    let texto_boton = if todos_seleccionados { "Deseleccionar todos" } else { "Seleccionar todos" };
     let mut alumnos_lista = use_signal(|| estado.read().alumnos.clone());
 
     rsx! {
@@ -50,8 +51,12 @@ pub fn Buscar() -> Element {
     
     let mut filtro = use_signal(|| (my_app::Columnas::Nombre, String::new()));
     let alumnos_filtrados = use_signal(|| estado.read().alumnos.clone());
-    let  hay_seleccion = alumnos_filtrados.read().iter().any(|a| estado.read().seleccionados.contains(&a.id));
-    let texto_boton = if hay_seleccion { "Deseleccionar todos" } else { "Seleccionar todos" };
+    let todos_seleccionados = !alumnos_filtrados.read().is_empty()
+        && alumnos_filtrados
+            .read()
+            .iter()
+            .all(|a| estado.read().seleccionados.contains(&a.id));
+    let texto_boton = if todos_seleccionados { "Deseleccionar todos" } else { "Seleccionar todos" };
 
     {
         let filtro = filtro.clone();
