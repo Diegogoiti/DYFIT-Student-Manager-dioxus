@@ -7,13 +7,16 @@ use crate::my_app::Columnas;
 
 
 #[component]
-pub fn SearchBar(on_input: EventHandler<(Columnas,String)>) -> Element {
+pub fn SearchBar(
+    on_input: EventHandler<(Columnas, String)>,
+    options: Vec<(String, Columnas)>,
+    placeholder: String,
+    initial_param: Columnas,
+) -> Element {
     let mut search_text = use_signal(|| "".to_string());
-    let mut selected_param = use_signal(|| Columnas::Nombre);
+    let mut selected_param = use_signal(|| initial_param);
 
-    
-
-    let mut notificar = move || {
+    let notificar = move || {
         on_input.call((selected_param.cloned(), search_text.cloned()));
     };
 
@@ -22,26 +25,28 @@ pub fn SearchBar(on_input: EventHandler<(Columnas,String)>) -> Element {
             // Dropdown para el parámetro
             select {
                 class: "p-2 rounded bg-gray-50 border border-gray-300 text-gray-700",
+                value: "{options.iter().position(|(_, value)| *value == *selected_param.read()).unwrap_or(0)}",
                 onchange: move |evt| {
-                    match evt.value().as_str() {
-                        "Nombre" => selected_param.set(Columnas::Nombre),
-                        "id" => selected_param.set(Columnas::Id),
-                        "Representante" => selected_param.set(Columnas::Representante),
-                        "Teléfono" => selected_param.set(Columnas::Telefono),
-                        _ => {}
+                    if let Ok(index) = evt.value().parse::<usize>() {
+                        if let Some((_, option_value)) = options.get(index) {
+                            selected_param.set(*option_value);
+                        }
                     }
                     notificar();
                 },
-                option { value: "Nombre", "Nombre" }
-                option { value: "id", "id" }
-                option { value: "Representante", "Representante" }
-                option { value: "Teléfono", "Teléfono" }
+                {options.iter().enumerate().map(|(index, (label, option_value))| rsx! {
+                    option {
+                        value: "{index}",
+                        selected: *selected_param.read() == *option_value,
+                        "{label}"
+                    }
+                })}
             }
 
             // Input de texto
             input {
                 class: "flex-1 p-2 rounded border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none",
-                placeholder: "Buscar alumno...",
+                placeholder: "{placeholder}",
                 value: "{search_text}",
                 oninput: move |evt| {
                     search_text.set(evt.value());

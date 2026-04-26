@@ -8,7 +8,7 @@ use std::string;
 use dioxus::prelude::*;
 use crate::components::datatable::DataTable;
 use crate::components::searchbar::SearchBar;
-use crate::my_app;
+use crate::my_app::{self, Columnas};
 
 
 
@@ -80,7 +80,17 @@ pub fn Buscar() -> Element {
                 }
             }
 
-            SearchBar { on_input: move |data| filtro.set(data) }
+            SearchBar {
+                on_input: move |data| filtro.set(data),
+                options: vec![
+                    ("Id".to_string(), my_app::Columnas::Id),
+                    ("Nombre".to_string(), my_app::Columnas::Nombre),
+                    ("Representante".to_string(), my_app::Columnas::Representante),
+                    ("Teléfono".to_string(), my_app::Columnas::Telefono),
+                ],
+                placeholder: "Buscar alumno...".to_string(),
+                initial_param: my_app::Columnas::Nombre,
+            }
             DataTable { alumnos_lista: alumnos_filtrados, estado }
         }
 
@@ -89,19 +99,54 @@ pub fn Buscar() -> Element {
 
 #[component]
 pub fn Filtrar() -> Element {
-    rsx! {
-        div { class: "space-y-4",
-            h2 { class: "text-3xl font-bold text-gray-800", "Filtrar Alumnos" }
-            p { class: "text-gray-600", "Aquí podrás filtrar alumnos por curso, promedio o estado." }
+        let mut estado = use_context::<Signal<my_app::MyApp>>();
+    
+    let mut filtro = use_signal(|| (my_app::Columnas::Nombre, String::new()));
+    let alumnos_filtrados = use_signal(|| estado.read().alumnos.clone());
+    let todos_seleccionados = !alumnos_filtrados.read().is_empty()
+        && alumnos_filtrados
+            .read()
+            .iter()
+            .all(|a| estado.read().seleccionados.contains(&a.id));
+    let texto_boton = if todos_seleccionados { "Deseleccionar todos" } else { "Seleccionar todos" };
 
-            // Un pequeño indicador de que la vista cargó
-            div { class: "p-10 border-2 border-dashed border-gray-300 rounded-xl text-center",
-                "Funcionalidad de filtrado (Próximamente)"
-            }
-        }
+    {
+        let filtro = filtro.clone();
+        let estado = estado.clone();
+        let mut alumnos_filtrados = alumnos_filtrados.clone();
+        use_effect(move || {
+            let app = estado.read();
+            alumnos_filtrados.set(app.filtrar_alumnos(filtro.read().0, &filtro.read().1));
+        });
     }
-}
 
+    rsx! {
+        div { class: "flex flex-col h-full space-y-4",
+            div { class: "relative flex items-center justify-center py-2",
+                h2 { class: "text-3xl font-bold text-gray-800 text-center", "Filtrar" }
+                button {
+                    class: "absolute right-0 px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition-colors text-sm",
+                    onclick: move |_| {
+                        estado.write().toggle_all(alumnos_filtrados.read().clone());
+                    },
+                    "{texto_boton}"
+                }
+            }
+
+            SearchBar {
+                on_input: move |data| filtro.set(data),
+                options: vec![
+                    ("Cinta".to_string(),Columnas::Cinta),
+                    ("Edad".to_string(),Columnas::Edad),
+                ],
+                placeholder: "Filtrar alumnos...".to_string(),
+                initial_param: my_app::Columnas::Cinta,
+            }
+
+            DataTable { alumnos_lista: alumnos_filtrados, estado }
+        }
+}
+}
 #[component]
 pub fn Agregar() -> Element {
     rsx! {
