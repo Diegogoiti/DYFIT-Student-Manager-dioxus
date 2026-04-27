@@ -97,7 +97,7 @@ pub fn filtrar_cinta(&self, cinta_label: String) -> Vec<Alumno> {
     self.alumnos.iter().cloned().filter(|a| {
         let cinta_alumno = crate::models::Cintas::from_rango(a.rango);
         
-        match cinta_label.as_str() {
+        let cinta = match cinta_label.as_str() {
             "Azul (todos)" => {
                 // Comparamos contra las variantes exactas del Enum
                 matches!(cinta_alumno, crate::models::Cintas::Azul1 | crate::models::Cintas::Azul2)
@@ -113,7 +113,8 @@ pub fn filtrar_cinta(&self, cinta_label: String) -> Vec<Alumno> {
             // Para etiquetas individuales ("Blanca", "Azul 1"), usamos .label()
             // que es lo que el usuario ve y selecciona en el dropdown
             _ => cinta_alumno.label() == cinta_label
-        }
+        };
+        cinta && !a.rallita
     }).collect()
 }
 
