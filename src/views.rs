@@ -103,8 +103,9 @@ pub fn Buscar() -> Element {
 pub fn Filtrar() -> Element {
     let mut estado = use_context::<Signal<my_app::MyApp>>();
     
+    
     // Iniciamos con Cinta por defecto para que coincida con el componente Filter
-    let mut filtro = use_signal(|| (my_app::Columnas::Cinta, "Blanca".to_string()));
+    let mut filtro = use_signal(|| (my_app::Columnas::Cinta, "Blanca".to_string(), false));
     let mut alumnos_filtrados = use_signal(|| estado.read().alumnos.clone());
     
     let todos_seleccionados = !alumnos_filtrados.read().is_empty()
@@ -118,10 +119,10 @@ pub fn Filtrar() -> Element {
     // Lógica de filtrado reactiva
     use_effect(move || {
         let app = estado.read();
-        let (columna, valor) = filtro.read().clone();
+        let (columna, valor, solo_rallita) = filtro.read().clone();
         
         let resultado = match columna {
-            Columnas::Cinta => app.filtrar_cinta(valor),
+            Columnas::Cinta => app.filtrar_cinta(valor, solo_rallita),
             Columnas::Edad => app.filtrar_edad(valor),
             _ => app.buscar_alumnos(columna, &valor),
         };

@@ -89,7 +89,7 @@ pub fn filtrar_edad(&self, edad: String) -> Vec<Alumno> {
         .collect()
 }
 
-pub fn filtrar_cinta(&self, cinta_label: String) -> Vec<Alumno> {
+pub fn filtrar_cinta(&self, cinta_label: String, solo_rallita: bool) -> Vec<Alumno> {
     if cinta_label.is_empty() {
         return self.alumnos.clone();
     }
@@ -114,7 +114,7 @@ pub fn filtrar_cinta(&self, cinta_label: String) -> Vec<Alumno> {
             // que es lo que el usuario ve y selecciona en el dropdown
             _ => cinta_alumno.label() == cinta_label
         };
-        cinta && !a.rallita
+        cinta && a.rallita == solo_rallita
     }).collect()
 }
 

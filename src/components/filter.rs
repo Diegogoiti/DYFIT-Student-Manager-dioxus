@@ -5,13 +5,15 @@ use crate::models::Cintas;
 
 #[component]
 pub fn Filter(
-    on_input: EventHandler<(Columnas, String)>,
+    on_input: EventHandler<(Columnas, String, bool)>, // Agregamos bool aquí
     options: Vec<(String, Columnas)>,
     placeholder: String,
     initial_param: Columnas,
 ) -> Element {
+    let mut con_rallita = use_signal(|| false);
     let cintas = Cintas::all_variants();
     let special_cintas = ["Azul (todos)", "Marrón (todos)"];
+    
     let mut search_text = use_signal(|| {
         if initial_param == Columnas::Cinta {
             cintas[0].label().to_string()
@@ -21,13 +23,15 @@ pub fn Filter(
     });
     let mut selected_param = use_signal(|| initial_param);
 
+    // Actualizamos notificar para incluir el valor del checkbox
     let notificar = move || {
-        on_input.call((selected_param.cloned(), search_text.cloned()));
+        on_input.call((selected_param.cloned(), search_text.cloned(), con_rallita.cloned()));
     };
 
     rsx! {
-        div { class: "flex flex-row space-x-2 p-4 bg-white rounded-xl shadow-md border border-gray-200",
-            // Dropdown para el parámetro
+        div { class: "flex flex-row items-center space-x-4 p-4 bg-white rounded-xl shadow-md border border-gray-200",
+            
+            // 1. Dropdown de parámetro (Nombre, Edad, Cinta...)
             select {
                 class: "p-2 rounded bg-gray-50 border border-gray-300 text-gray-700",
                 value: "{options.iter().position(|(_, value)| *value == *selected_param.read()).unwrap_or(0)}",
@@ -53,6 +57,7 @@ pub fn Filter(
                 })}
             }
 
+            // 2. Input dinámico (Dropdown de cintas o Input de edad)
             match *selected_param.read() {
                 Columnas::Cinta => rsx! {
                     select {
@@ -77,14 +82,26 @@ pub fn Filter(
                             }
                         })}
                     }
+                    // 3. CHECKBOX (Ubicado al lado del input/dropdown anterior)
+            label { class: "flex items-center space-x-2 text-sm font-medium text-gray-700 cursor-pointer bg-gray-50 p-2 rounded border border-gray-200",
+                input {
+                    r#type: "checkbox",
+                    class: "w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500",
+                    checked: "{con_rallita}",
+                    onchange: move |_| {
+                        con_rallita.set(!con_rallita.cloned());
+                        notificar();
+                    }
+                }
+                span { "Con Rallita" }
+            }
                 },
                 Columnas::Edad => rsx! {
                     input {
                         class: "flex-1 p-2 rounded border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none",
-                        placeholder: "Filtrar por edad...".to_string(),
+                        placeholder: "Filtrar por edad...",
                         value: "{search_text}",
                         r#type: "number",
-                        min: "0",
                         oninput: move |evt| {
                             search_text.set(evt.value());
                             notificar();
@@ -103,6 +120,8 @@ pub fn Filter(
                     }
                 }
             }
+
+            
         }
     }
 }
