@@ -4,7 +4,7 @@ version = "0.1.0-alpha"
 authors = ["Diego <diegogoitiazx1@gmail.com>"]
 edition = "2021"
 homepage = "https://diegogoitia-dev.onrender.com"
-description = "Gestor de alumnos de karate"
+description = "Karate Student Manager"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

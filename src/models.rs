@@ -1,11 +1,8 @@
 //! contiene los modelos de los alumnos para manejarlos como instancias individuales
-//!  y el modelo del crud de la base de datos para abstraer operaciones 
-
-
+//!  y el modelo del crud de la base de datos para abstraer operaciones
 
 use chrono::{Datelike, Local, NaiveDate};
 use rusqlite;
-
 
 ///modelo que maneja los datos delos alumnos para tratarlos como instancias independientes
 /// de manera mas organizada y clara, contiene metodos como cinta, rango_str o edad que son setters,
@@ -20,7 +17,6 @@ pub struct Alumno {
     pub representante: String,
     pub numero_contacto: String,
     pub rallita: bool,
-    
 }
 
 impl Alumno {
@@ -31,7 +27,7 @@ impl Alumno {
         rango: u32,
         representante: &str,
         numero_contacto: &str,
-        rallita: &bool
+        rallita: &bool,
     ) -> Self {
         Self {
             id: 0,
@@ -41,7 +37,6 @@ impl Alumno {
             representante: representante.to_string(),
             numero_contacto: numero_contacto.to_string(),
             rallita: *rallita,
-            
         }
     }
 
@@ -52,7 +47,7 @@ impl Alumno {
         rango: u32,
         representante: &str,
         numero_contacto: &str,
-        rallita: &bool
+        rallita: &bool,
     ) -> Self {
         Self {
             id: id as usize,
@@ -62,21 +57,19 @@ impl Alumno {
             representante: representante.to_string(),
             numero_contacto: numero_contacto.to_string(),
             rallita: *rallita,
-            
         }
     }
 
-
-    
-        pub fn cinta(&self) -> String {
-            let texto_cinta = Cintas::from_rango(self.rango).nombre().to_string();
-            if self.rallita {
-                let texto_rallita = Cintas::from_rango(self.rango.saturating_sub(1)).nombre().to_string();
-                format!("{texto_cinta} ralla {texto_rallita}")
-            } else {
-                 texto_cinta
-            }
-       
+    pub fn cinta(&self) -> String {
+        let texto_cinta = Cintas::from_rango(self.rango).nombre().to_string();
+        if self.rallita {
+            let texto_rallita = Cintas::from_rango(self.rango.saturating_sub(1))
+                .nombre()
+                .to_string();
+            format!("{texto_cinta} ralla {texto_rallita}")
+        } else {
+            texto_cinta
+        }
     }
 
     pub fn edad(&self) -> String {
@@ -110,6 +103,11 @@ impl Database {
 
         // 2. Abrimos la conexión
         let connection = rusqlite::Connection::open(path)?;
+
+        connection.execute(
+            "PRAGMA journal_mode = WAL;",
+            [],
+        )?;
 
         let db = Self { connection };
 
@@ -158,14 +156,14 @@ impl Database {
         let alumno_iter = stmt.query_map([], |row| {
             Ok(Alumno::from_db(
                 row.get(0)?,
-                &row.get::<_, String>(1)?, 
+                &row.get::<_, String>(1)?,
                 &row.get::<_, String>(2)?,
                 row.get(3)?,
                 &row.get::<_, String>(4)?,
                 &row.get::<_, String>(5)?,
                 &row.get::<_, bool>(6)?,
             ))
-        })?; 
+        })?;
 
         let mut alumnos = Vec::new();
         for alumno in alumno_iter {
@@ -198,7 +196,7 @@ impl Database {
     }
 
     pub fn get_alumno_by_id(&self, id: i32) -> rusqlite::Result<Alumno> {
-    self.connection.query_row(
+        self.connection.query_row(
         "SELECT id, nombre, fecha_de_nacimiento, rango, representante, numero_contacto FROM alumnos WHERE id = ?1",
         rusqlite::params![id],
         |row| {
@@ -213,7 +211,7 @@ impl Database {
             ))
         },
     )
-}
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -221,7 +219,7 @@ pub enum Cintas {
     Blanca,
     Celeste,
     Amarilla,
-    
+
     Naranja,
     Verde,
     Azul1,
@@ -330,5 +328,3 @@ impl Cintas {
         &[10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
     }
 }
-
-

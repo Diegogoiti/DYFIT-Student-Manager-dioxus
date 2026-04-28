@@ -3,14 +3,14 @@
 mod models;
 
 mod components;
-mod views;
 mod my_app;
+mod views;
 
-use dioxus::prelude::*;
-use dioxus::desktop::{Config, WindowBuilder};
 use crate::components::sidebar::Sidebar;
-use crate::views::*;
 use crate::models::Alumno;
+use crate::views::*;
+use dioxus::desktop::{Config, WindowBuilder};
+use dioxus::prelude::*;
 
 const CSS: &str = include_str!("../assets/tailwind.css");
 
@@ -35,7 +35,6 @@ pub enum Route {
 fn main() {
     let initial_size = dioxus::desktop::LogicalSize::new(1024.0, 720.0);
 
-
     // 1. Configuramos la ventana (SIN el menú aquí)
     let window = WindowBuilder::new()
         .with_title("Karate Student Manager")
@@ -48,33 +47,23 @@ fn main() {
         .with_visible(false);
 
     // 2. Creamos el config y AQUÍ le quitamos el menú
-    let config = Config::default()
-        .with_window(window)
-        .with_menu(None); // <--- El .with_menu() va pegado al Config, no al WindowBuilder
+    let config = Config::default().with_window(window).with_menu(None); // <--- El .with_menu() va pegado al Config, no al WindowBuilder
 
     // 3. Lanzamos
-    LaunchBuilder::desktop()
-        .with_cfg(config)
-        .launch(App);
+    LaunchBuilder::desktop().with_cfg(config).launch(App);
 }
 
 #[component]
 fn App() -> Element {
-    
     use_effect(move || {
         // Muestra la ventana solo cuando el componente esté montado
         dioxus::desktop::window().set_visible(true);
     });
 
-let estado_app = use_signal(|| {
-        my_app::MyApp::new()
-    });
+    let estado_app = use_signal(|| my_app::MyApp::new());
 
     // 3. Proveemos el signal ya creado al contexto
     use_context_provider(|| estado_app);
-
-
-
 
     rsx! {
 

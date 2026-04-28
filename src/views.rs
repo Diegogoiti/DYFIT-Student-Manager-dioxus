@@ -1,25 +1,28 @@
 //! se encarga de dibujar las vistas segun las rutas seleccionadas
 //! contiene las funciones con el codigo especifico de cada vista
 
-
-
 use std::string;
 
-use dioxus::prelude::*;
 use crate::components::datatable::DataTable;
-use crate::components::searchbar::SearchBar;
 use crate::components::filter::Filter;
+use crate::components::searchbar::SearchBar;
 use crate::my_app::{self, Columnas};
-
-
-
+use dioxus::prelude::*;
 
 #[component]
 pub fn Home() -> Element {
     let mut estado = use_context::<Signal<my_app::MyApp>>();
     let todos_seleccionados = !estado.read().alumnos.is_empty()
-        && estado.read().alumnos.iter().all(|a| estado.read().seleccionados.contains(&a.id));
-    let texto_boton = if todos_seleccionados { "Deseleccionar todos" } else { "Seleccionar todos" };
+        && estado
+            .read()
+            .alumnos
+            .iter()
+            .all(|a| estado.read().seleccionados.contains(&a.id));
+    let texto_boton = if todos_seleccionados {
+        "Deseleccionar todos"
+    } else {
+        "Seleccionar todos"
+    };
     let mut alumnos_lista = use_signal(|| estado.read().alumnos.clone());
 
     rsx! {
@@ -48,7 +51,7 @@ pub fn Home() -> Element {
 #[component]
 pub fn Buscar() -> Element {
     let mut estado = use_context::<Signal<my_app::MyApp>>();
-    
+
     let mut filtro = use_signal(|| (my_app::Columnas::Nombre, String::new()));
     let alumnos_filtrados = use_signal(|| estado.read().alumnos.clone());
     let todos_seleccionados = !alumnos_filtrados.read().is_empty()
@@ -56,7 +59,11 @@ pub fn Buscar() -> Element {
             .read()
             .iter()
             .all(|a| estado.read().seleccionados.contains(&a.id));
-    let texto_boton = if todos_seleccionados { "Deseleccionar todos" } else { "Seleccionar todos" };
+    let texto_boton = if todos_seleccionados {
+        "Deseleccionar todos"
+    } else {
+        "Seleccionar todos"
+    };
 
     {
         let filtro = filtro.clone();
@@ -98,35 +105,37 @@ pub fn Buscar() -> Element {
     }
 }
 
-
 #[component]
 pub fn Filtrar() -> Element {
     let mut estado = use_context::<Signal<my_app::MyApp>>();
-    
-    
+
     // Iniciamos con Cinta por defecto para que coincida con el componente Filter
     let mut filtro = use_signal(|| (my_app::Columnas::Cinta, "Blanca".to_string(), false));
     let mut alumnos_filtrados = use_signal(|| estado.read().alumnos.clone());
-    
+
     let todos_seleccionados = !alumnos_filtrados.read().is_empty()
         && alumnos_filtrados
             .read()
             .iter()
             .all(|a| estado.read().seleccionados.contains(&a.id));
-    
-    let texto_boton = if todos_seleccionados { "Deseleccionar todos" } else { "Seleccionar todos" };
+
+    let texto_boton = if todos_seleccionados {
+        "Deseleccionar todos"
+    } else {
+        "Seleccionar todos"
+    };
 
     // Lógica de filtrado reactiva
     use_effect(move || {
         let app = estado.read();
         let (columna, valor, solo_rallita) = filtro.read().clone();
-        
+
         let resultado = match columna {
             Columnas::Cinta => app.filtrar_cinta(valor, solo_rallita),
             Columnas::Edad => app.filtrar_edad(valor),
             _ => app.buscar_alumnos(columna, &valor),
         };
-        
+
         alumnos_filtrados.set(resultado);
     });
 
@@ -158,7 +167,6 @@ pub fn Filtrar() -> Element {
     }
 }
 
-
 #[component]
 pub fn Agregar() -> Element {
     rsx! {
@@ -172,10 +180,10 @@ pub fn Agregar() -> Element {
             }
         }
     }
-}   
+}
 
 #[component]
-pub fn Editar() -> Element {    
+pub fn Editar() -> Element {
     rsx! {
         div { class: "space-y-4",
             h2 { class: "text-3xl font-bold text-gray-800", "Editar Alumno" }

@@ -1,10 +1,5 @@
-use dioxus::prelude::*;
 use crate::my_app::Columnas;
-
-
-
-
-
+use dioxus::prelude::*;
 
 #[component]
 pub fn SearchBar(

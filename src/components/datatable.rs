@@ -1,11 +1,6 @@
-
-
-
-use dioxus::prelude::*;
 use crate::models::Alumno;
 use crate::my_app;
-
-
+use dioxus::prelude::*;
 
 ///componente que recibe un contexto con una clase myapp y clona el vertor alumnos
 /// para dibujar la tabla de los datos en la ventana

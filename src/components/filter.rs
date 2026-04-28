@@ -1,7 +1,6 @@
-use dioxus::prelude::*;
-use crate::my_app::Columnas;
 use crate::models::Cintas;
-
+use crate::my_app::Columnas;
+use dioxus::prelude::*;
 
 #[component]
 pub fn Filter(
@@ -13,7 +12,7 @@ pub fn Filter(
     let mut con_rallita = use_signal(|| false);
     let cintas = Cintas::all_variants();
     let special_cintas = ["Azul (todos)", "Marrón (todos)"];
-    
+
     let mut search_text = use_signal(|| {
         if initial_param == Columnas::Cinta {
             cintas[0].label().to_string()
@@ -25,12 +24,16 @@ pub fn Filter(
 
     // Actualizamos notificar para incluir el valor del checkbox
     let notificar = move || {
-        on_input.call((selected_param.cloned(), search_text.cloned(), con_rallita.cloned()));
+        on_input.call((
+            selected_param.cloned(),
+            search_text.cloned(),
+            con_rallita.cloned(),
+        ));
     };
 
     rsx! {
         div { class: "flex flex-row items-center space-x-4 p-4 bg-white rounded-xl shadow-md border border-gray-200",
-            
+
             // 1. Dropdown de parámetro (Nombre, Edad, Cinta...)
             select {
                 class: "p-2 rounded bg-gray-50 border border-gray-300 text-gray-700",
@@ -121,7 +124,7 @@ pub fn Filter(
                 }
             }
 
-            
+
         }
     }
 }
