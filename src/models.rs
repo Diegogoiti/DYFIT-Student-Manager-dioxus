@@ -104,10 +104,7 @@ impl Database {
         // 2. Abrimos la conexión
         let connection = rusqlite::Connection::open(path)?;
 
-        connection.execute(
-            "PRAGMA journal_mode = WAL;",
-            [],
-        )?;
+        connection.pragma_update(None, "journal_mode", "WAL")?;
 
         let db = Self { connection };
 
