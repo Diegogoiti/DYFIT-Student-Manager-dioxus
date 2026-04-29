@@ -37,7 +37,7 @@ fn main() {
 
     // 1. Configuramos la ventana (SIN el menú aquí)
     let window = WindowBuilder::new()
-        .with_title("Karate Student Manager")
+        .with_title("BudoDB")
         .with_background_color((17, 24, 39, 255))
         .with_min_inner_size(dioxus::desktop::LogicalSize::new(800.0, 600.0))
         .with_inner_size(initial_size)

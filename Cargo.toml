@@ -1,10 +1,10 @@
 [package]
-name = "karate-student-manager"
+name = "BudoDB"
 version = "0.1.0-alpha"
 authors = ["Diego <diegogoitiazx1@gmail.com>"]
 edition = "2021"
 homepage = "https://diegogoitia-dev.onrender.com"
-description = "Karate Student Manager"
+description = "BudoDB"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

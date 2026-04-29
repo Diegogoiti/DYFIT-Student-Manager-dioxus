@@ -7,7 +7,7 @@ pub fn Sidebar() -> Element {
         div { class: "flex h-screen w-screen bg-gray-100 overflow-hidden",
             nav { class: "w-64 bg-gray-900 text-white flex flex-col shadow-xl flex-none",
                 div { class: "p-6 border-b border-gray-800 flex justify-center",
-                    h1 { class: "text-2xl font-bold text-white", "KSM" }
+                    h1 { class: "text-2xl font-bold text-white", "BudoDB" }
                 }
                 div { class: "flex-1 px-4 py-6 space-y-2",
                     SidebarItem { to: Route::Home {}, icon: "📋", label: "Consulta" }
@@ -35,8 +35,8 @@ pub fn Sidebar() -> Element {
                     }
                 }
                 div { class: "p-4 bg-gray-950 text-center border-t border-gray-800",
-                    p { class: "text-[10px] text-gray-500 uppercase tracking-widest",
-                        "KSM v0.1.0-alpha"
+                    p { class: "text-[10px] text-gray-500 tracking-widest",
+                        "BudoDB V0.1.0-ALPHA"
                     }
                 }
             }

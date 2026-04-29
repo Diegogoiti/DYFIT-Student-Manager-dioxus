@@ -4,7 +4,7 @@ fn main() {
         let mut res = winres::WindowsResource::new();
         // res.set_icon("icono.ico");
         res.set("CompanyName", "Diego Goitia");
-        res.set("FileDescription", "Karate Student Manager");
+        res.set("FileDescription", "BudoDB");
         res.set(
             "Comments",
             "https://diegogoitia-dev.onrender.com | diegogoitiazx1@gmail.com",
