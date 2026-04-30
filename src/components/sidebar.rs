@@ -38,7 +38,13 @@ pub fn Sidebar() -> Element {
                     p { class: "text-[10px] text-gray-500 tracking-widest",
                         "BudoDB V0.1.0-ALPHA"
                     }
+                    p { class: "text-[10px] text-gray-500 tracking-widest",
+                        "© 2026 BudoDB Team. All rights reserved."
+                    }
                 }
+                
+                    
+                
             }
             // El "hueco" donde se verán las vistas
             main { class: "flex-1 h-full flex flex-col bg-gray-100 overflow-hidden",

@@ -23,7 +23,7 @@ pub fn Home() -> Element {
     } else {
         "Seleccionar todos"
     };
-    let mut alumnos_lista = use_signal(|| estado.read().alumnos.clone());
+    let alumnos_lista = use_signal(|| estado.read().alumnos.clone());
 
     rsx! {
         div { class: "flex flex-col h-full space-y-4 ",
@@ -169,16 +169,43 @@ pub fn Filtrar() -> Element {
 
 #[component]
 pub fn Agregar() -> Element {
-    rsx! {
-        div { class: "space-y-4",
-            h2 { class: "text-3xl font-bold text-gray-800", "Agregar Alumno" }
-            p { class: "text-gray-600", "Aquí podrás agregar nuevos alumnos al sistema." }
+  let mut estado = use_context::<Signal<my_app::MyApp>>();
 
-            // Un pequeño indicador de que la vista cargó
-            div { class: "p-10 border-2 border-dashed border-gray-300 rounded-xl text-center",
-                "Formulario de agregar alumno (Próximamente)"
+    let mut filtro = use_signal(|| (my_app::Columnas::Nombre, String::new()));
+    let alumnos_filtrados = use_signal(|| estado.read().alumnos.clone());
+    let todos_seleccionados = !alumnos_filtrados.read().is_empty()
+        && alumnos_filtrados
+            .read()
+            .iter()
+            .all(|a| estado.read().seleccionados.contains(&a.id));
+    
+    {
+        let filtro = filtro.clone();
+        let estado = estado.clone();
+        let mut alumnos_filtrados = alumnos_filtrados.clone();
+        use_effect(move || {
+            let app = estado.read();
+            alumnos_filtrados.set(app.buscar_alumnos(filtro.read().0, &filtro.read().1));
+        });
+    }
+
+    rsx! {
+        div { class: "flex flex-col h-full space-y-4",
+            div { class: "relative flex items-center justify-center py-2",
+                h2 { class: "text-3xl font-bold text-gray-800 text-center", "Agregar" }
+                button {
+                    class: "absolute right-0 px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition-colors text-sm",
+                    onclick: move |_| {
+                        //estado.write().toggle_all(alumnos_filtrados.read().clone());
+                    },
+                    "Guardar"
+                }
             }
+
+            div { class: "p-10 border-2 border-dashed border-gray-300 rounded-xl text-center",
+                "Formulario de registro de alumno (Próximamente)"}
         }
+
     }
 }
 
